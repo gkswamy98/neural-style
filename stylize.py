@@ -176,16 +176,17 @@ def stylize(network, initial, initial_noiseblend, content, styles, preserve_colo
 
                         # 2
                         styled_grayscale_yuv = np.array(Image.fromarray(styled_grayscale_rgb.astype(np.uint8)).convert('YCbCr'))
-
+                        styled_yuv = np.array(Image.fromarray(styled_image.astype(np.uint8)).convert('YCbCr'))
+                        
                         # 3
                         original_yuv = np.array(Image.fromarray(original_image.astype(np.uint8)).convert('YCbCr'))
 
                         # 4
                         w, h, _ = original_image.shape
                         combined_yuv = np.empty((w, h, 3), dtype=np.uint8)
-                        combined_yuv[..., 0] = styled_grayscale_yuv[..., 0]
-                        combined_yuv[..., 1] = original_yuv[..., 1]
-                        combined_yuv[..., 2] = original_yuv[..., 2]
+                        combined_yuv[..., 0] = original_yuv[..., 0]
+                        combined_yuv[..., 1] = styled_yuv[..., 1]
+                        combined_yuv[..., 2] = styled_yuv[..., 2]
 
                         # 5
                         img_out = np.array(Image.fromarray(combined_yuv, 'YCbCr').convert('RGB'))
